@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.2.final using JasperReports Library version 6.21.2-8434a0bd7c3bbc37cbf916f2968d35e4b165821a  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportDataKelurahan" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7dfa78b0-b5ec-48c7-a6d9-884c17610912">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL"/>
+	<parameter name="NAMA_KELURAHAN" class="java.lang.String"/>
+	<parameter name="COUNT_ALL_DATA" class="java.lang.String"/>
+	<parameter name="COUNT_LAYAK" class="java.lang.String"/>
+	<parameter name="COUNT_TIDAK_LAYAK" class="java.lang.String"/>
+	<parameter name="PATH" class="java.lang.String"/>
+	<parameter name="NAMA_JUDUL" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select * from  klasifikasi_kemiskinan.data_verifikasi limit 1]]>
+	</queryString>
+	<field name="name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="name"/>
+		<property name="com.jaspersoft.studio.field.label" value="name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="no_kk" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="no_kk"/>
+		<property name="com.jaspersoft.studio.field.label" value="no_kk"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="nik" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nik"/>
+		<property name="com.jaspersoft.studio.field.label" value="nik"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="address" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="address"/>
+		<property name="com.jaspersoft.studio.field.label" value="address"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="kelurahan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kelurahan"/>
+		<property name="com.jaspersoft.studio.field.label" value="kelurahan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="kecamatan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kecamatan"/>
+		<property name="com.jaspersoft.studio.field.label" value="kecamatan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="hasil_muskel_kelayakan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="hasil_muskel_kelayakan"/>
+		<property name="com.jaspersoft.studio.field.label" value="hasil_muskel_kelayakan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="keterangan_muskel" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="keterangan_muskel"/>
+		<property name="com.jaspersoft.studio.field.label" value="keterangan_muskel"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="id_list_data" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_list_data"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_list_data"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="status"/>
+		<property name="com.jaspersoft.studio.field.label" value="status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="data_verifikasi"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="80" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="842" height="100" forecolor="#FFFCFC" backcolor="#080808" uuid="6def4276-74d8-4f20-8d7a-62f8dec0373e"/>
+				<staticText>
+					<reportElement x="260" y="10" width="330" height="20" forecolor="#FCFAFA" uuid="97e1b638-3c8c-4801-b645-051b8b70353c"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman" size="14" isBold="true"/>
+						<paragraph lineSpacingSize="1.0"/>
+					</textElement>
+					<text><![CDATA[PUSDATIN KESOS DINAS SOSIAL]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="295" y="50" width="260" height="20" forecolor="#FFFAFA" uuid="15746b70-9536-44a7-b456-c73032d7f474"/>
+					<textElement>
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[Jl.Bambu Kuning 1, RT 11 / RW 8 Pd. Bambu Kec Duren Sawit]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="295" y="65" width="290" height="20" forecolor="#FCFAFA" uuid="6f42cbb7-2dda-440d-bc3c-024c2bef74b7"/>
+					<text><![CDATA[Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13430]]></text>
+				</staticText>
+				<image>
+					<reportElement x="40" y="25" width="50" height="50" uuid="88a07e89-04b6-46ad-8d48-1d43c883308e"/>
+					<imageExpression><![CDATA[$P{PATH}+"images.png"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="260" y="30" width="330" height="20" forecolor="#FCFAFA" uuid="987e83df-bb28-41ba-888d-02ba66b295e3"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman" size="14" isBold="true"/>
+						<paragraph lineSpacingSize="1.0"/>
+					</textElement>
+					<text><![CDATA[PROVINSI DKI JAKARTA]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="148" splitType="Stretch">
+			<textField>
+				<reportElement x="280" y="20" width="285" height="20" uuid="4151205a-d23b-4f53-a7ff-30d47c5fb188"/>
+				<textFieldExpression><![CDATA[$P{NAMA_JUDUL} + " " + $P{NAMA_KELURAHAN} + " :"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="281" y="50" width="129" height="20" uuid="bc90ce4c-ea58-46c1-9e2f-bd34ee7c0b0b"/>
+				<text><![CDATA[Jumlah data awal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="80" width="130" height="20" uuid="97561a90-3a2f-4607-bd6b-4ad769aa6eef"/>
+				<text><![CDATA[Jumlah jiwa yang layak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="280" y="110" width="130" height="20" uuid="3feb631b-7726-46d2-bcb0-22052870e99f"/>
+				<text><![CDATA[Jumlah jiwa yang tidak layak]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="410" y="50" width="150" height="20" uuid="209cf345-2c3c-4c87-997a-24e42c7064fe"/>
+				<textFieldExpression><![CDATA[" : "+$P{COUNT_ALL_DATA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="80" width="134" height="20" uuid="19d3e977-4970-48d8-91d7-7ae4d03ac840"/>
+				<textFieldExpression><![CDATA[" : "+$P{COUNT_LAYAK}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="110" width="170" height="20" uuid="c42f097e-92eb-43f8-ad93-6a80c702d4d8"/>
+				<textFieldExpression><![CDATA[" : "+$P{COUNT_TIDAK_LAYAK}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="144">
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="230" y="10" width="594" height="19" uuid="4d2c68e9-fd00-4c63-8f43-693b2fb88364">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<paragraph rightIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Jakarta, " + new java.text.SimpleDateFormat("EEEE, dd MMMM yyyy", new java.util.Locale("id", "ID")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="232" y="40" width="596" height="19" uuid="6e4941d9-ee9c-4f84-aca7-317cd2843028">
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+					<paragraph rightIndent="40"/>
+				</textElement>
+				<text><![CDATA[Mengetahui]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="233" y="120" width="595" height="24" uuid="27a284ae-b63b-4d84-9b45-698d2df7c03b">
+					<property name="com.jaspersoft.studio.unit.spacingBefore" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<paragraph rightIndent="10"/>
+				</textElement>
+				<text><![CDATA[Kepala Pusdatin Kesos]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>
