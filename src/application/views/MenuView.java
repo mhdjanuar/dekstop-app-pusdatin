@@ -151,6 +151,17 @@ public class MenuView extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Calibri", 1, 20)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("KELUAR");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel3MouseExited(evt);
+            }
+        });
 
         listData.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         listData.setForeground(new java.awt.Color(255, 255, 255));
@@ -429,6 +440,23 @@ public class MenuView extends javax.swing.JFrame {
         perhitunganSPK.setBackground(new Color(45,49,74));
         perhitunganSPK.setForeground(Color.white);
     }//GEN-LAST:event_perhitunganSPKMouseExited
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        this.dispose();
+        new LoginView().start();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseEntered
+        jLabel3.setBackground(new Color(41,44,69));
+        jLabel3.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        jLabel3.setForeground(new Color(255, 187, 0));
+    }//GEN-LAST:event_jLabel3MouseEntered
+
+    private void jLabel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseExited
+        // TODO add your handling code here:
+        jLabel3.setBackground(new Color(45,49,74));
+        jLabel3.setForeground(Color.white);
+    }//GEN-LAST:event_jLabel3MouseExited
 
     /**
      * @param args the command line arguments
