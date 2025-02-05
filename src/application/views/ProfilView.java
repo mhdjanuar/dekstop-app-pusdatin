@@ -24,16 +24,22 @@ public class ProfilView extends javax.swing.JPanel {
     
     public void loadRoleToComboBox() {
         List<RoleModel> roleList = userDao.findAllRole();
+        
+        role.removeAllItems(); // Bersihkan ComboBox sebelum mengisi ulang
 
-        role.addItem("Pilih Role"); // Opsi default
-        for (RoleModel data : roleList) {
-            role.addItem(data.getName());
+        if(userAuth.getRoleId() == 3) {
+            role.addItem("kelurahan");
+        } else {
+            role.addItem("Pilih Role"); // Opsi default
+            for (RoleModel data : roleList) {
+                role.addItem(data.getName());
+            }
         }
     }
     /**
      * Creates new form Test
      */
-    public ProfilView(UserModel userAuth, String pageType, JPanel Pane) {
+    public ProfilView(UserModel userAuth, String pageType, JPanel Pane, UserModel userEdit) {
         initComponents();
         
         this.userDao = new UserDaoImpl();
@@ -41,7 +47,18 @@ public class ProfilView extends javax.swing.JPanel {
         this.pageType = pageType;
         this.Pane = Pane;
         
-        UserModel user = userDao.findOneById(userAuth.getId());
+        int userId = userAuth.getId();
+        
+        if("edit".equals(pageType)) {
+            userId = userEdit.getId();
+        } else if ("create".equals(pageType)) {
+            userId = 0;
+        }
+        
+        System.out.print(userId);
+        
+        UserModel user = userDao.findOneById(userId);
+        loadRoleToComboBox();
         
         if (user != null) {
             // Isi value default ke JTextField
@@ -52,6 +69,9 @@ public class ProfilView extends javax.swing.JPanel {
             kecamatan.setText(user.getKecamatan());
             kelurahan.setText(user.getKelurahan());
             password.setText(user.getPassword());
+            
+            RoleModel roleFound = userDao.findRoleById(user.getRoleId());
+            role.setSelectedItem(roleFound.getName());
         }
         
         if("profile".equals(pageType)) {
@@ -63,8 +83,6 @@ public class ProfilView extends javax.swing.JPanel {
             labelPassword.hide();
             password.hide();
         }
-        
-        loadRoleToComboBox();
     }
 
     /**
@@ -306,6 +324,7 @@ public class ProfilView extends javax.swing.JPanel {
         user.setAddress(address.getText());
         user.setKecamatan(kecamatan.getText());
         user.setKelurahan(kelurahan.getText());
+        user.setPassword(password.getText());
         
         List<RoleModel> roleList = userDao.findAllRole();
         String roleName = (String) role.getSelectedItem();
@@ -337,7 +356,7 @@ public class ProfilView extends javax.swing.JPanel {
         Pane.revalidate();
 
         // add Panel, add panel
-        Pane.add(new AkunView(Pane));
+        Pane.add(new AkunView(userAuth, Pane));
         Pane.repaint();
         Pane.revalidate();
     }//GEN-LAST:event_jButton2ActionPerformed

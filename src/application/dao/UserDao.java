@@ -31,4 +31,6 @@ public interface UserDao {
     public void upsert(UserModel user);
     
     public List<RoleModel> findAllRole();
+    
+    public RoleModel findRoleById(int id);
 }

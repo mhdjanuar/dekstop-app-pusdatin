@@ -16,7 +16,7 @@ import java.util.Properties;
 public class DatabaseUtil {
     private static Connection connection;
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/klasifikasi_kemiskinan";
+    private static final String URL = "jdbc:mysql://localhost:3306/klasifikasi_kemiskinan_test";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
     private static final String MAX_POOL = "250";

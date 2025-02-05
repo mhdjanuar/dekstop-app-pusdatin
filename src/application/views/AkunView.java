@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
  * @author mhdja
  */
 public class AkunView extends javax.swing.JPanel {
+    private UserModel userAuth;
+    
     public final UserDao userDao;
     private JPanel Pane;
     /**
@@ -62,7 +64,7 @@ public class AkunView extends javax.swing.JPanel {
                     Pane.revalidate();
 
                     // add Panel, add panel
-                    Pane.add(new ProfilView(user, "edit", Pane));
+                    Pane.add(new ProfilView(userAuth, "edit", Pane, user));
                     Pane.repaint();
                     Pane.revalidate();
                 }
@@ -76,11 +78,13 @@ public class AkunView extends javax.swing.JPanel {
     }
 
     
-    public AkunView(JPanel Pane) {
+    public AkunView(UserModel userAuth, JPanel Pane) {
         initComponents();
         
         this.userDao = new UserDaoImpl();
         this.Pane = Pane;
+        this.userAuth = userAuth;
+        
         getAllUsers();
     }
 
@@ -200,7 +204,7 @@ public class AkunView extends javax.swing.JPanel {
         Pane.revalidate();
 
         // add Panel, add panel
-        Pane.add(new ProfilView(user, "create", Pane));
+        Pane.add(new ProfilView(userAuth, "create", Pane, user));
         Pane.repaint();
         Pane.revalidate();
     }//GEN-LAST:event_jButton1ActionPerformed

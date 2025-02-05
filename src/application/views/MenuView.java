@@ -344,12 +344,14 @@ public class MenuView extends javax.swing.JFrame {
 
     private void profilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profilMouseClicked
         // TODO add your handling code here:
+        UserModel user = new UserModel();
+        
         Pane.removeAll();
         Pane.repaint();
         Pane.revalidate();
 
         // add Panel, add panel
-        Pane.add(new ProfilView(loggedInUser, "profile", Pane));
+        Pane.add(new ProfilView(loggedInUser, "profile", Pane, user));
         Pane.repaint();
         Pane.revalidate();
     }//GEN-LAST:event_profilMouseClicked
@@ -398,7 +400,7 @@ public class MenuView extends javax.swing.JFrame {
         Pane.revalidate();
 
         // add Panel, add panel
-        Pane.add(new AkunView(Pane));
+        Pane.add(new AkunView(loggedInUser, Pane));
         Pane.repaint();
         Pane.revalidate();
     }//GEN-LAST:event_akunMouseClicked

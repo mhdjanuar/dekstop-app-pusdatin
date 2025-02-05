@@ -188,7 +188,7 @@ public class UserDaoImpl implements UserDao {
 
             if (count > 0) {
                 // Jika data ada, lakukan update
-                String updateQuery = "UPDATE users SET name = ?, email = ?, phone = ?, address = ?, kecamatan = ?, kelurahan = ?, role_id = ? WHERE id = ?";
+                String updateQuery = "UPDATE users SET name = ?, email = ?, phone = ?, address = ?, kecamatan = ?, kelurahan = ?, role_id = ?, password = ? WHERE id = ?";
                 PreparedStatement pstmt = dbConnection.prepareStatement(updateQuery);
                 pstmt.setString(1, user.getName());
                 pstmt.setString(2, user.getEmail());
@@ -197,7 +197,8 @@ public class UserDaoImpl implements UserDao {
                 pstmt.setString(5, user.getKecamatan());
                 pstmt.setString(6, user.getKelurahan());
                 pstmt.setInt(7, user.getRoleId());
-                pstmt.setInt(8, user.getId());
+                pstmt.setString(8, user.getPassword());
+                pstmt.setInt(9, user.getId());
 
                 int rowsAffected = pstmt.executeUpdate();
                 if (rowsAffected > 0) {
@@ -206,7 +207,7 @@ public class UserDaoImpl implements UserDao {
                 pstmt.close();
             } else {
                 // Jika data tidak ada, lakukan insert
-                String insertQuery = "INSERT INTO users (name, email, phone, address, kecamatan, kelurahan, role_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO users (name, email, phone, address, kecamatan, kelurahan, role_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pstmt = dbConnection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
                 pstmt.setString(1, user.getName());
                 pstmt.setString(2, user.getEmail());
@@ -214,7 +215,8 @@ public class UserDaoImpl implements UserDao {
                 pstmt.setString(4, user.getAddress());
                 pstmt.setString(5, user.getKecamatan());
                 pstmt.setString(6, user.getKelurahan());
-                pstmt.setInt(7, 1);
+                pstmt.setInt(7, user.getRoleId());
+                pstmt.setString(8, user.getPassword());
 
                 int rowsInserted = pstmt.executeUpdate();
                 if (rowsInserted > 0) {
@@ -301,4 +303,29 @@ public class UserDaoImpl implements UserDao {
 
         return userList;
     }
+
+    @Override
+    public RoleModel findRoleById(int id) {
+        RoleModel roleModel = null;
+        String query = "SELECT * FROM role WHERE id = ?";
+
+        try {
+            pstmt = dbConnection.prepareStatement(query);
+            pstmt.setInt(1, id); // Set nilai parameter query
+            resultSet = pstmt.executeQuery();
+
+            if (resultSet.next()) { // Gunakan if karena id unik
+                roleModel = new RoleModel();
+                roleModel.setId(resultSet.getInt("id"));
+                roleModel.setName(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error saat mengambil role: " + e.getMessage(), e);
+        } finally {
+            closeStatement();
+        }
+
+        return roleModel; // Return roleModel, bukan List
+    }
+
 }
