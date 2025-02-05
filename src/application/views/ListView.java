@@ -209,9 +209,42 @@ public class ListView extends javax.swing.JPanel {
     }
     
     public void filterData(String kelurahan, String kecamatan, String noKK, int idListData) {
-        List<DataVerifikasiModel> dataList = dataVerifikasiDao.findByFilters(listDetail.getId(),kelurahan, kecamatan, noKK);
+        String filterKelurahan = null;
+        String filterKecamatan = null;
+        
+        if(!"Pilih Kelurahan".equals(kelurahan)) {
+            filterKelurahan = kelurahan;
+        }
+        
+        if(!"Pilih Kecamatan".equals(kecamatan)) {
+            filterKecamatan = kecamatan;
+        }
+        
+        // Debug: Cek nilai parameter sebelum query
+        System.out.println("DEBUG: filterData called with parameters:");
+        System.out.println("Kelurahan: " + filterKelurahan);
+        System.out.println("Kecamatan: " + filterKecamatan);
+        System.out.println("No KK: " + noKK);
+        System.out.println("ID List Data: " + idListData);
+
+        // Debug: Cek apakah listDetail memiliki ID yang benar
+        System.out.println("listDetail.getId(): " + listDetail.getId());
+
+        List<DataVerifikasiModel> dataList = dataVerifikasiDao.findByFilters(listDetail.getId(), filterKelurahan, filterKecamatan, noKK);
+
+        // Debug: Cek hasil dari query
+        if (dataList.isEmpty()) {
+            System.out.println("DEBUG: No data found for the given filters.");
+        } else {
+            System.out.println("DEBUG: Data retrieved: " + dataList.size() + " records.");
+            for (DataVerifikasiModel data : dataList) {
+                System.out.println(data);
+            }
+        }
+
         populateTable(dataList);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -259,6 +292,12 @@ public class ListView extends javax.swing.JPanel {
                 .addComponent(labelHeader)
                 .addContainerGap(61, Short.MAX_VALUE))
         );
+
+        jComboBoxKelurahan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxKelurahanActionPerformed(evt);
+            }
+        });
 
         searchNoKK.setBackground(new java.awt.Color(0, 0, 0));
         searchNoKK.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
@@ -373,16 +412,16 @@ public class ListView extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBoxKelurahan, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 24, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jComboBoxKecamatan, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                    .addComponent(noKK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchNoKK, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(noKK, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -554,7 +593,7 @@ public class ListView extends javax.swing.JPanel {
             Logger.getLogger(ReportView.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }//GEN-LAST:event_jButton5ActionPerformed
-
+    
     public List<DataVerifikasiModel> getSelectedData() {
         List<DataVerifikasiModel> selectedData = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
