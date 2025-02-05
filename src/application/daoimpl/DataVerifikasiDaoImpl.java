@@ -114,7 +114,7 @@ public class DataVerifikasiDaoImpl implements DataVerifikasiDao {
             query.append(" AND kecamatan LIKE ?");
         }
         if (noKk != null && !noKk.isEmpty()) {
-            query.append(" AND no_kk = ?");
+            query.append(" AND no_kk LIKE ?");
         }
 
         try {
@@ -131,7 +131,7 @@ public class DataVerifikasiDaoImpl implements DataVerifikasiDao {
                 pstmt.setString(paramIndex++, "%" + kecamatan + "%");
             }
             if (noKk != null && !noKk.isEmpty()) {
-                pstmt.setString(paramIndex++, noKk);
+                pstmt.setString(paramIndex++, "%" + noKk + "%");
             }
 
             resultSet = pstmt.executeQuery();

@@ -199,7 +199,7 @@ public class RejectView extends javax.swing.JPanel {
                 // Jika user memilih "YES", lakukan update
                 if (confirm == JOptionPane.YES_OPTION) {
                     DataVerifikasiModel data = new DataVerifikasiModel();
-                    data.setHasilMuskelKelayakan("Tidak Layak");
+                    data.setHasilMuskelKelayakan("TIDAK LAYAK");
                     data.setKeteranganMuskel(selectedData.getDescription());
                     data.setId(idDataVerifikasi);
 
