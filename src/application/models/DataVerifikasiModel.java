@@ -35,8 +35,7 @@ public class DataVerifikasiModel {
         this.hasilMuskelKelayakan = hasilMuskelKelayakan;
         this.keteranganMuskel = keteranganMuskel;
         this.status = status;
-    }
-    
+    }  
     
     /**
      * @return the id

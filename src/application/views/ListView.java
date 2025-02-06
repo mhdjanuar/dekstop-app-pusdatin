@@ -151,7 +151,6 @@ public class ListView extends javax.swing.JPanel {
         });
     }
 
-
     public void getAllData(int idListData) {
         String kelurahan = null;
         String kecamatan = null;
@@ -169,18 +168,30 @@ public class ListView extends javax.swing.JPanel {
         List<DataVerifikasiModel> kelurahanList = dataVerifikasiDao.findKelurahan();
 
         jComboBoxKelurahan.addItem("Pilih Kelurahan"); // Opsi default
-        for (DataVerifikasiModel data : kelurahanList) {
-            jComboBoxKelurahan.addItem(data.getKelurahan());
+        
+        if(userAuth.getRoleId() == 1) {
+            for (DataVerifikasiModel data : kelurahanList) {
+                jComboBoxKelurahan.addItem(data.getKelurahan());
+            }
+        } else {
+           jComboBoxKelurahan.addItem(userAuth.getKelurahan()); // Opsi default 
         }
+        
     }
     
     public void loadKecamatanToComboBox() {
         List<DataVerifikasiModel> kecamatanList = dataVerifikasiDao.findKecamatan();
 
         jComboBoxKecamatan.addItem("Pilih Kecamatan"); // Opsi default
-        for (DataVerifikasiModel data : kecamatanList) {
-            jComboBoxKecamatan.addItem(data.getKecamatan());
+        
+        if(userAuth.getRoleId() == 1) {
+            for (DataVerifikasiModel data : kecamatanList) {
+                jComboBoxKecamatan.addItem(data.getKecamatan());
+            }
+        } else {
+            jComboBoxKecamatan.addItem(userAuth.getKecamatan()); // Opsi default 
         }
+        
     }
 
     
@@ -244,16 +255,17 @@ public class ListView extends javax.swing.JPanel {
         String filterKecamatan = null;
         String filterNoKK = null;
         
-        if(!"Pilih Kelurahan".equals(kelurahan)) {
-            filterKelurahan = kelurahan;
-        }
-        
-        if(!"Pilih Kecamatan".equals(kecamatan)) {
-            filterKecamatan = kecamatan;
-        }
-        
-        if(!"Cari NO KK ...".equals(noKK)) {
-            filterNoKK = noKK;
+        if(userAuth.getRoleId() == 2 || userAuth.getRoleId() == 3) {
+            filterKelurahan = userAuth.getKelurahan();
+            filterKecamatan = userAuth.getKecamatan();
+        } else {
+           if(!"Pilih Kelurahan".equals(kelurahan)) {
+                filterKelurahan = kelurahan;
+            }
+
+            if(!"Pilih Kecamatan".equals(kecamatan)) {
+                filterKecamatan = kecamatan;
+            } 
         }
         
         // Debug: Cek nilai parameter sebelum query
