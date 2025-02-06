@@ -348,17 +348,21 @@ public class ProfilView extends javax.swing.JPanel {
         user.setRoleId(roleID);
 
         userDao.upsert(user);
-
-        JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
         
-        Pane.removeAll();
-        Pane.repaint();
-        Pane.revalidate();
+        if(!"profile".equals(pageType)) {
+            JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
+        
+            Pane.removeAll();
+            Pane.repaint();
+            Pane.revalidate();
 
-        // add Panel, add panel
-        Pane.add(new AkunView(userAuth, Pane));
-        Pane.repaint();
-        Pane.revalidate();
+            // add Panel, add panel
+            Pane.add(new AkunView(userAuth, Pane));
+            Pane.repaint();
+            Pane.revalidate();   
+        } else {
+            JOptionPane.showMessageDialog(this, "Data berhasil diperbarui!");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed

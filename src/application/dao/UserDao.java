@@ -20,7 +20,7 @@ public interface UserDao {
     
     public List<UserModel> findAll();
     
-    public List<UserModel> findByName(String name);
+    public List<UserModel> findByName(String name, List<Integer> roleId);
     
     public int create(UserModel user);
     

@@ -15,6 +15,7 @@ import application.dao.UserDao;
 import application.models.RoleModel;
 import application.utils.DatabaseUtil;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -262,14 +263,20 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<UserModel> findByName(String name) {
+    public List<UserModel> findByName(String name, List<Integer> roleId) {
         List<UserModel> userList = new ArrayList<>();
-        String query = "SELECT * FROM users WHERE name LIKE ?";
+        // Bangun placeholder (?) sesuai jumlah roleId
+        String placeholders = String.join(",", Collections.nCopies(roleId.size(), "?"));
+        String query = "SELECT * FROM users WHERE name LIKE ? AND role_id IN (" + placeholders + ")";
 
         try {
             pstmt = dbConnection.prepareStatement(query);
             String searchParam = "%" + name + "%";
             pstmt.setString(1, searchParam);
+            // Set nilai roleId satu per satu
+            for (int i = 0; i < roleId.size(); i++) {
+                pstmt.setInt(i + 2, roleId.get(i));
+            }
 
             // Debugging: Cetak query dan parameter yang digunakan
             System.out.println("[DEBUG] SQL Query: " + query);

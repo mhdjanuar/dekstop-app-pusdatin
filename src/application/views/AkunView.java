@@ -7,6 +7,7 @@ package application.views;
 import application.dao.UserDao;
 import application.daoimpl.UserDaoImpl;
 import application.models.UserModel;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
@@ -73,7 +74,13 @@ public class AkunView extends javax.swing.JPanel {
     }
     
     public void getAllUsers() {
-        List<UserModel> userList = userDao.findAll();
+        List<Integer> roleId = Arrays.asList(1, 2, 3);
+        
+        if(userAuth.getRoleId() == 3) {
+            roleId = Arrays.asList(2);
+        }
+        
+        List<UserModel> userList = userDao.findByName("", roleId);
         populateUserTable(userList);
     }
 
@@ -211,12 +218,17 @@ public class AkunView extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String name = null;
+        List<Integer> roleId = Arrays.asList(1, 2, 3);
         
         if (searchName.getText() != "") {
             name = searchName.getText();
         }
         
-        List<UserModel> userList = userDao.findByName(name);
+        if(userAuth.getRoleId() == 3) {
+            roleId = Arrays.asList(2);
+        }
+        
+        List<UserModel> userList = userDao.findByName(name, roleId);
         populateUserTable(userList);
     }//GEN-LAST:event_jButton2ActionPerformed
 
