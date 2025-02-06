@@ -79,6 +79,8 @@ public class UserDaoImpl implements UserDao {
                 userFound.setName(resultSet.getString("name"));
                 userFound.setPassword(resultSet.getString("password"));
                 userFound.setRoleId(resultSet.getInt("role_id"));
+                userFound.setKecamatan(resultSet.getString("kecamatan"));
+                userFound.setKelurahan(resultSet.getString("kelurahan"));
                 return userFound;
             }
             return null;

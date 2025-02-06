@@ -70,7 +70,7 @@ public class ListView extends javax.swing.JPanel {
         };
 
         model.setColumnIdentifiers(new Object[]{
-            "Pilih", "ID", "Nama", "No KK", "NIK", "Alamat", "Kelurahan", "Kecamatan", "Status", "Aksi"
+            "Pilih", "ID", "Nama", "No KK", "NIK", "Alamat", "Kelurahan", "Kecamatan", "Hasil Verval", "Ket Verval", "Status", "Aksi"
         });
 
         for (DataVerifikasiModel data : dataList) {
@@ -97,7 +97,8 @@ public class ListView extends javax.swing.JPanel {
                 isSelected, // Load status checkbox
                 data.getId(), data.getName(), data.getNoKk(), data.getNik(),
                 data.getAddress(), data.getKelurahan(), data.getKecamatan(),
-                status, "Edit"
+                data.getHasilMuskelKelayakan(), data.getKeteranganMuskel(),
+                data.getStatus(), "Edit"
             });
         }
 
@@ -110,9 +111,9 @@ public class ListView extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(0).setWidth(0);
 
             // Sembunyikan kolom "Aksi" (Index 9)
-            jTable1.getColumnModel().getColumn(9).setMinWidth(0);
-            jTable1.getColumnModel().getColumn(9).setMaxWidth(0);
-            jTable1.getColumnModel().getColumn(9).setWidth(0);
+            jTable1.getColumnModel().getColumn(11).setMinWidth(0);
+            jTable1.getColumnModel().getColumn(11).setMaxWidth(0);
+            jTable1.getColumnModel().getColumn(11).setWidth(0);
         }
 
         // Tambahkan listener untuk menyimpan status ceklis saat diubah
@@ -152,7 +153,15 @@ public class ListView extends javax.swing.JPanel {
 
 
     public void getAllData(int idListData) {
-        List<DataVerifikasiModel> dataList = dataVerifikasiDao.findByIdListData(idListData);
+        String kelurahan = null;
+        String kecamatan = null;
+        
+        if(userAuth.getRoleId() == 2 || userAuth.getRoleId() == 3) {
+            kelurahan = userAuth.getKelurahan();
+            kecamatan = userAuth.getKecamatan();
+        }
+        
+        List<DataVerifikasiModel> dataList = dataVerifikasiDao.findByFilters(idListData, kelurahan, kecamatan, "");
         populateTable(dataList);
     }
     
@@ -369,6 +378,11 @@ public class ListView extends javax.swing.JPanel {
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton3MouseClicked(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -628,10 +642,27 @@ public class ListView extends javax.swing.JPanel {
     private void jComboBoxKecamatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxKecamatanActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxKecamatanActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
     
     public List<DataVerifikasiModel> getSelectedData() {
+        String status;
         List<DataVerifikasiModel> selectedData = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        
+        switch (userAuth.getRoleId()) {
+            case 1:
+                status = "VERIFIKASI ADMIN";
+                break;
+            case 2:
+                status = "VERIFIKASI KELURAHAN";
+                break;
+            default:
+                status = "VERIFIKASI KECAMATAN";
+                break;
+        }
 
         for (int i = 0; i < model.getRowCount(); i++) {
             boolean isChecked = (boolean) model.getValueAt(i, 0);
@@ -644,14 +675,15 @@ public class ListView extends javax.swing.JPanel {
                 data.setAddress((String) model.getValueAt(i, 5));
                 data.setKelurahan((String) model.getValueAt(i, 6));
                 data.setKecamatan((String) model.getValueAt(i, 7));
-                data.setStatus((String) model.getValueAt(i, 8));
-                data.setHasilMuskelKelayakan("LAYAK");
+                data.setHasilMuskelKelayakan((String) model.getValueAt(i, 8));
+                data.setStatus(status);
                 selectedData.add(data);
             }
         }
 
         return selectedData;
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

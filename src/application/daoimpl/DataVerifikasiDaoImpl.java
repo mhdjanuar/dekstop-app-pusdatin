@@ -292,11 +292,11 @@ public class DataVerifikasiDaoImpl implements DataVerifikasiDao {
     @Override
     public void updateBulk(List<DataVerifikasiModel> dataVerifikasi) {
         try {
-            query = "UPDATE data_verifikasi SET hasil_muskel_kelayakan = ? WHERE id = ?";
+            query = "UPDATE data_verifikasi SET status = ? WHERE id = ?";
             
             pstmt = dbConnection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
              for (DataVerifikasiModel data : dataVerifikasi) {
-                pstmt.setString(1, data.getHasilMuskelKelayakan());
+                pstmt.setString(1, data.getStatus());
                 pstmt.setInt(2, data.getId());
                 pstmt.addBatch();
             }
