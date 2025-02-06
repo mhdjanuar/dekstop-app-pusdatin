@@ -30,6 +30,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Row;
@@ -235,15 +236,15 @@ public class UploadDataView extends javax.swing.JPanel {
                 Row row = sheet.getRow(i);
                 if (row == null) continue;
 
-                String nama = row.getCell(0).getStringCellValue();
-                String noKk = row.getCell(1).getStringCellValue();
-                String nik = row.getCell(2).getStringCellValue();
-                String alamat = row.getCell(3).getStringCellValue();
-                String kelurahan = row.getCell(4).getStringCellValue();
-                String kecamatan = row.getCell(5).getStringCellValue();
-                String hasilMuskel = row.getCell(6).getStringCellValue();
-                String ketMuskel = row.getCell(7).getStringCellValue();
-                String status = row.getCell(8).getStringCellValue();
+                String nama = getCellValueAsString(row.getCell(0));
+                String noKk = getCellValueAsString(row.getCell(1));
+                String nik = getCellValueAsString(row.getCell(2));
+                String alamat = getCellValueAsString(row.getCell(3));
+                String kelurahan = getCellValueAsString(row.getCell(4));
+                String kecamatan = getCellValueAsString(row.getCell(5));
+                String hasilMuskel = getCellValueAsString(row.getCell(6));
+                String ketMuskel = getCellValueAsString(row.getCell(7));
+                String status = getCellValueAsString(row.getCell(8));
 
                 DataVerifikasiModel data = new DataVerifikasiModel(nama, noKk, nik, alamat, kelurahan, kecamatan, hasilMuskel, ketMuskel, status);
                 dataList.add(data);
@@ -263,6 +264,24 @@ public class UploadDataView extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+    
+    private String getCellValueAsString(Cell cell) {
+        if (cell == null) {
+            return null; // atau nilai default lainnya
+        }
+        switch (cell.getCellType()) {
+            case STRING:
+                return cell.getStringCellValue();
+            case NUMERIC:
+                return String.valueOf(cell.getNumericCellValue());
+            case BOOLEAN:
+                return String.valueOf(cell.getBooleanCellValue());
+            case FORMULA:
+                return cell.getCellFormula();
+            default:
+                return "";
         }
     }
 

@@ -216,6 +216,10 @@ public class DataVerifikasiDaoImpl implements DataVerifikasiDao {
 
     @Override
     public int createBulk(List<DataVerifikasiModel> dataVerifikasi, int listDataId) {
+        if (dataVerifikasi == null || dataVerifikasi.isEmpty()) {
+            return 0; // Langsung return jika list kosong
+        }
+
         int result = 0;
         try {
             query = "INSERT INTO data_verifikasi (name, no_kk, nik, address, kelurahan, kecamatan, hasil_muskel_kelayakan, keterangan_muskel, id_list_data, status) " +
@@ -239,7 +243,6 @@ public class DataVerifikasiDaoImpl implements DataVerifikasiDao {
 
             int[] batchResult = pstmt.executeBatch();
 
-            // Jika eksekusi batch berhasil, set result = 1
             if (batchResult.length > 0) {
                 result = 1;
             }
@@ -251,6 +254,7 @@ public class DataVerifikasiDaoImpl implements DataVerifikasiDao {
 
         return result;
     }
+
 
     @Override
     public void update(DataVerifikasiModel data) {

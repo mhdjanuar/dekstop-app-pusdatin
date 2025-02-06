@@ -105,8 +105,9 @@ public class PerhitunganDaoImpl implements PerhitunganDao {
         List<PresentaseModel> list = new ArrayList<>();
         query = "SELECT hasil_muskel_kelayakan, " +
                 "COUNT(*) AS jumlah, " +
-                "(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM data_verifikasi)) AS persen " +
-                "FROM data_verifikasi " +  // Perhatikan spasi di akhir
+                "(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM data_verifikasi WHERE COALESCE(hasil_muskel_kelayakan, '') <> '')) AS persen " +
+                "FROM data_verifikasi " +
+                "WHERE COALESCE(hasil_muskel_kelayakan, '') <> '' " +
                 "GROUP BY hasil_muskel_kelayakan";
 
         try {
@@ -129,14 +130,16 @@ public class PerhitunganDaoImpl implements PerhitunganDao {
         return list;
     }
 
+
     @Override
     public List<PresentaseModel> findPresentaseKetTidakLayak() {
         List<PresentaseModel> list = new ArrayList<>();
         query = "SELECT KETERANGAN_MUSKEL, " +
                 "COUNT(*) AS jumlah, " +
-                "(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM data_verifikasi WHERE HASIL_MUSKEL_KELAYAKAN = 'TIDAK LAYAK')) AS persen " +
+                "(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM data_verifikasi WHERE HASIL_MUSKEL_KELAYAKAN = 'TIDAK LAYAK' AND COALESCE(KETERANGAN_MUSKEL, '') <> '')) AS persen " +
                 "FROM data_verifikasi " +
                 "WHERE HASIL_MUSKEL_KELAYAKAN = 'TIDAK LAYAK' " +
+                "AND COALESCE(KETERANGAN_MUSKEL, '') <> '' " +
                 "GROUP BY KETERANGAN_MUSKEL";
 
         try {
@@ -158,6 +161,7 @@ public class PerhitunganDaoImpl implements PerhitunganDao {
 
         return list;
     }
+
 
     @Override
     public List<PresentaseModel> findPresentaseKelayakanKelurahan(String kelurahan) {
@@ -226,14 +230,15 @@ public class PerhitunganDaoImpl implements PerhitunganDao {
         List<PresentaseModel> list = new ArrayList<>();
         query = "SELECT hasil_muskel_kelayakan, " +
                 "COUNT(*) AS jumlah, " +
-                "(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM data_verifikasi)) AS persen " +
-                "FROM data_verifikasi " +  
-                "WHERE id_list_data = ? " +
-                "GROUP BY hasil_muskel_kelayakan ";
+                "(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM data_verifikasi WHERE id_list_data = ? AND hasil_muskel_kelayakan IS NOT NULL AND hasil_muskel_kelayakan <> '')) AS persen " +
+                "FROM data_verifikasi " +
+                "WHERE id_list_data = ? AND hasil_muskel_kelayakan IS NOT NULL AND hasil_muskel_kelayakan <> '' " +
+                "GROUP BY hasil_muskel_kelayakan";
 
         try {
             pstmt = dbConnection.prepareStatement(query);
             pstmt.setInt(1, idListData);
+            pstmt.setInt(2, idListData); // Parameter kedua untuk id_list_data di subquery
             resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
