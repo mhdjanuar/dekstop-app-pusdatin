@@ -89,7 +89,7 @@
 				</staticText>
 				<image>
 					<reportElement x="40" y="25" width="50" height="50" uuid="2b5e7542-8874-4add-93e2-7c8774d30d53"/>
-					<imageExpression><![CDATA[$P{PATH}+"images.png"]]></imageExpression>
+					<imageExpression><![CDATA[$P{PATH}+"logo.png"]]></imageExpression>
 				</image>
 				<staticText>
 					<reportElement x="260" y="30" width="330" height="20" forecolor="#FCFAFA" uuid="6e704e00-a57d-4887-8dc0-d2b80d6ea651"/>
@@ -171,9 +171,9 @@
 					<property name="com.jaspersoft.studio.unit.rightIndent" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<paragraph rightIndent="10"/>
+					<paragraph rightIndent="35"/>
 				</textElement>
-				<text><![CDATA[Kepala Pusdatin Kesos]]></text>
+				<text><![CDATA[RANI NURANI]]></text>
 			</staticText>
 		</band>
 	</lastPageFooter>
