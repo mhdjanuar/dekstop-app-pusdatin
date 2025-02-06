@@ -13,6 +13,7 @@ import application.daoimpl.RejectionNoteDaoImpl;
 import application.models.DataVerifikasiModel;
 import application.models.ListDataModel;
 import application.models.RejectionNoteModel;
+import application.models.UserModel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -185,6 +186,8 @@ public class RejectView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        UserModel user = new UserModel();
+        
         for (int i = 0; i < checkBoxList.size(); i++) {
             if (checkBoxList.get(i).isSelected()) {
                 RejectionNoteModel selectedData = rejectionList.get(i);
@@ -212,7 +215,7 @@ public class RejectView extends javax.swing.JPanel {
                     Pane.revalidate();
 
                     // add Panel, add panel
-                    Pane.add(new ListView(Pane, listDetail, "Edit"));
+                    Pane.add(new ListView(Pane, listDetail, "Edit", user));
                     Pane.repaint();
                     Pane.revalidate();
                 }

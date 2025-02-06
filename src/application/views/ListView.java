@@ -11,6 +11,7 @@ import application.daoimpl.PerhitunganDaoImpl;
 import application.models.DataVerifikasiModel;
 import application.models.ListDataModel;
 import application.models.PresentaseModel;
+import application.models.UserModel;
 import application.utils.DatabaseUtil;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -49,6 +50,7 @@ public class ListView extends javax.swing.JPanel {
     private JPanel Pane; // Referensi ke Pane
     private Map<Integer, Boolean> selectedRows = new HashMap<>();
     private String pageType;
+    private UserModel userAuth;
 
     
     private void populateTable(List<DataVerifikasiModel> dataList) {
@@ -74,12 +76,28 @@ public class ListView extends javax.swing.JPanel {
         for (DataVerifikasiModel data : dataList) {
             // Ambil status ceklis sebelumnya jika ada, jika tidak ada default false
             boolean isSelected = selectedRows.getOrDefault(data.getId(), false);
-
+            String status = data.getHasilMuskelKelayakan();
+            
+            // Cek hasil Muskel Kelayakan
+            if ("Layak".equalsIgnoreCase(data.getHasilMuskelKelayakan())) {
+                switch (userAuth.getRoleId()) {
+                    case 3:
+                        status = "Verifikasi Kecamatan";
+                        break;
+                    case 2:
+                        status = "Verifikasi Kelurahan";
+                        break;
+                    default:
+                        status = "Verifikasi Admin";
+                        break;
+                }
+            }
+            
             model.addRow(new Object[]{
                 isSelected, // Load status checkbox
                 data.getId(), data.getName(), data.getNoKk(), data.getNik(),
                 data.getAddress(), data.getKelurahan(), data.getKecamatan(),
-                data.getHasilMuskelKelayakan(), "Edit"
+                status, "Edit"
             });
         }
 
@@ -160,7 +178,7 @@ public class ListView extends javax.swing.JPanel {
     /**
      * Creates new form ListView
      */
-    public ListView(JPanel Pane, ListDataModel listdataDetail, String pageType) {
+    public ListView(JPanel Pane, ListDataModel listdataDetail, String pageType, UserModel userAuth) {
         initComponents();
         
         this.Pane = Pane;
@@ -168,6 +186,7 @@ public class ListView extends javax.swing.JPanel {
         this.perhitunganDao = new PerhitunganDaoImpl();
         this.listDetail = listdataDetail;
         this.pageType = pageType;
+        this.userAuth = userAuth;
         
         labelHeader.setText(listdataDetail.getName()); // Ubah teks label
         getAllData(listdataDetail.getId());
@@ -418,7 +437,7 @@ public class ListView extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxKelurahan, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -427,11 +446,12 @@ public class ListView extends javax.swing.JPanel {
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxKecamatan, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(noKK, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchNoKK, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(searchNoKK, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(noKK, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)

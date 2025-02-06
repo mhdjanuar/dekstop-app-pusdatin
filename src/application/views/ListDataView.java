@@ -7,6 +7,7 @@ package application.views;
 import application.dao.ListDataDao;
 import application.daoimpl.ListDataDaoImpl;
 import application.models.ListDataModel;
+import application.models.UserModel;
 import application.utils.DatabaseUtil;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -49,13 +50,15 @@ public class ListDataView extends javax.swing.JPanel {
     public final ListDataDao listDataDao;
     private JPanel Pane; // Referensi ke Pane
     private JPanel PaneHeader;
+    private UserModel userAuth;
 
     /**
      * Creates new form ListDataView
      */
-    public ListDataView(JPanel Pane) {
+    public ListDataView(JPanel Pane, UserModel userAuth) {
         this.Pane = Pane;
         this.listDataDao = new ListDataDaoImpl();
+        this.userAuth = userAuth;
         
         List<ListDataModel> listDataAll = listDataDao.findAll();
         
@@ -122,7 +125,7 @@ public class ListDataView extends javax.swing.JPanel {
                 Pane.revalidate();
 
                 // add Panel, add panel
-                Pane.add(new ListView(Pane, data, "Lihat"));
+                Pane.add(new ListView(Pane, data, "Lihat", userAuth));
                 Pane.repaint();
                 Pane.revalidate();
             }
@@ -137,7 +140,7 @@ public class ListDataView extends javax.swing.JPanel {
                 Pane.revalidate();
 
                 // add Panel, add panel
-                Pane.add(new ListView(Pane, data, "Edit"));
+                Pane.add(new ListView(Pane, data, "Edit", userAuth));
                 Pane.repaint();
                 Pane.revalidate();
             }
