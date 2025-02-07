@@ -142,6 +142,9 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="noKK">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="noKKKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="searchNoKK">
       <Properties>

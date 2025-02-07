@@ -164,18 +164,20 @@ public class PerhitunganDaoImpl implements PerhitunganDao {
 
 
     @Override
-    public List<PresentaseModel> findPresentaseKelayakanKelurahan(String kelurahan) {
+    public List<PresentaseModel> findPresentaseKelayakanKelurahan(String kelurahan, String kecamatan, int idListData) {
         List<PresentaseModel> list = new ArrayList<>();
         query = "SELECT hasil_muskel_kelayakan, " +
                 "COUNT(*) AS jumlah, " +
                 "(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM data_verifikasi)) AS persen " +
                 "FROM data_verifikasi " +  // Perhatikan spasi di akhir
-                "WHERE kelurahan = ?" +
+                "WHERE kelurahan = ? AND kecamatan = ? AND id_list_data = ? " +
                 "GROUP BY hasil_muskel_kelayakan";
 
         try {
             pstmt = dbConnection.prepareStatement(query);
             pstmt.setString(1, kelurahan);
+            pstmt.setString(2, kecamatan);
+            pstmt.setInt(3, idListData);
             resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
@@ -195,18 +197,23 @@ public class PerhitunganDaoImpl implements PerhitunganDao {
     }
 
     @Override
-    public List<PresentaseModel> findPresentaseKelayakanKecamatan(String kecamatan) {
+    public List<PresentaseModel> findPresentaseKelayakanKecamatan(String kecamatan, String kelurahan, int idListData) {
         List<PresentaseModel> list = new ArrayList<>();
         query = "SELECT hasil_muskel_kelayakan, " +
                 "COUNT(*) AS jumlah, " +
                 "(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM data_verifikasi)) AS persen " +
                 "FROM data_verifikasi " +  // Perhatikan spasi di akhir
-                "WHERE kecamatan = ?" +
+                "WHERE kecamatan = ? AND kelurahan = ? AND id_list_data = ? " +
                 "GROUP BY hasil_muskel_kelayakan";
 
         try {
+            System.out.println("Executing Query: " + query);
+            System.out.println("Parameters: Kecamatan=" + kecamatan + ", Kelurahan=" + kelurahan + ", ID List Data=" + idListData);
+            
             pstmt = dbConnection.prepareStatement(query);
             pstmt.setString(1, kecamatan);
+            pstmt.setString(2, kelurahan);
+            pstmt.setInt(3, idListData);
             resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {

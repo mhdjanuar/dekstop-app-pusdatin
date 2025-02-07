@@ -347,6 +347,12 @@ public class ListView extends javax.swing.JPanel {
             }
         });
 
+        noKK.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                noKKKeyTyped(evt);
+            }
+        });
+
         searchNoKK.setBackground(new java.awt.Color(0, 0, 0));
         searchNoKK.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         searchNoKK.setForeground(new java.awt.Color(255, 255, 255));
@@ -541,8 +547,12 @@ public class ListView extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             String namaKelurahan = (String) jComboBoxKelurahan.getSelectedItem();
+            String namaKecamatan = (String) jComboBoxKecamatan.getSelectedItem();
             
-            List<PresentaseModel> presentaseList = perhitunganDao.findPresentaseKelayakanKelurahan(namaKelurahan);
+            System.out.println("Nama Kelurahan : " + namaKelurahan);
+            System.out.println("Nama Kecamatan : " + namaKecamatan);
+            
+            List<PresentaseModel> presentaseList = perhitunganDao.findPresentaseKelayakanKelurahan(namaKelurahan, namaKecamatan, listDetail.getId());
             
             int allData = 0;
 
@@ -578,9 +588,13 @@ public class ListView extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
+            String namaKelurahan = (String) jComboBoxKelurahan.getSelectedItem();
             String namaKecamatan = (String) jComboBoxKecamatan.getSelectedItem();
             
-            List<PresentaseModel> presentaseList = perhitunganDao.findPresentaseKelayakanKecamatan(namaKecamatan);
+            System.out.println("Nama Kelurahan : " + namaKelurahan);
+            System.out.println("Nama Kecamatan : " + namaKecamatan);
+            
+            List<PresentaseModel> presentaseList = perhitunganDao.findPresentaseKelayakanKecamatan(namaKecamatan, namaKelurahan, listDetail.getId());
             
             int allData = 0;
 
@@ -604,7 +618,7 @@ public class ListView extends javax.swing.JPanel {
             parameter.put("NAMA_JUDUL", "KECAMATAN");
             parameter.put("NAMA_KELURAHAN", namaKecamatan);
             parameter.put("COUNT_ALL_DATA", countData);
-            parameter.put("COUNT_LAYAK", String.valueOf(presentaseList.get(0).getJumlah()));
+            parameter.put("COUNT_LAYAK", "0");
             parameter.put("COUNT_TIDAK_LAYAK", String.valueOf(presentaseList.get(1).getJumlah()));
 
             JasperPrint jp = JasperFillManager.fillReport(jr,parameter, dbConnection);
@@ -616,8 +630,20 @@ public class ListView extends javax.swing.JPanel {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         try {            
-            List<PresentaseModel> presentaseList = perhitunganDao.findPresentaseKelayakanListData(listDetail.getId());
+            String namaKelurahan = (String) jComboBoxKelurahan.getSelectedItem();
+            String namaKecamatan = (String) jComboBoxKecamatan.getSelectedItem();
+            List<PresentaseModel> presentaseList = new ArrayList<>();
             
+            System.out.println("Nama Kelurahan : " + namaKelurahan);
+            System.out.println("Nama Kecamatan : " + namaKecamatan);
+            
+            if(userAuth.getRoleId() == 1) {
+                presentaseList = perhitunganDao.findPresentaseKelayakanListData(listDetail.getId());
+            } else {
+                presentaseList = perhitunganDao.findPresentaseKelayakanKecamatan(namaKecamatan, namaKelurahan, listDetail.getId());
+            }
+            
+               
             int allData = 0;
 
             // Pastikan list memiliki minimal 2 elemen sebelum mengakses indeksnya
@@ -658,6 +684,15 @@ public class ListView extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void noKKKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_noKKKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        // Allow only digits
+        if (!Character.isDigit(c)) {
+            evt.consume(); // Ignore the event
+        }
+    }//GEN-LAST:event_noKKKeyTyped
     
     public List<DataVerifikasiModel> getSelectedData() {
         String status;

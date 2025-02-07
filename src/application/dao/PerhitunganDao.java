@@ -17,7 +17,7 @@ public interface PerhitunganDao {
     public List<RangkingModel> findRangkingKecamatan();
     public List<PresentaseModel> findPresentaseKelayakan();
     public List<PresentaseModel> findPresentaseKetTidakLayak();
-    public List<PresentaseModel> findPresentaseKelayakanKelurahan(String kelurahan);
-    public List<PresentaseModel> findPresentaseKelayakanKecamatan(String kecamatan);
+    public List<PresentaseModel> findPresentaseKelayakanKelurahan(String kelurahan, String kecamatan, int idListData);
+    public List<PresentaseModel> findPresentaseKelayakanKecamatan(String kecamatan, String kelurahan, int idListData);
     public List<PresentaseModel> findPresentaseKelayakanListData(int idListData);
 }
