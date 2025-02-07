@@ -18,6 +18,7 @@ import javax.swing.JPanel;
  */
 public class ProfilView extends javax.swing.JPanel {
     private UserModel userAuth;
+    private UserModel userById;
     private String pageType;
     private JPanel Pane;
     public final UserDao userDao;
@@ -46,6 +47,7 @@ public class ProfilView extends javax.swing.JPanel {
         this.userAuth = userAuth;
         this.pageType = pageType;
         this.Pane = Pane;
+        this.userById = userEdit;
         
         int userId = userAuth.getId();
         
@@ -322,7 +324,7 @@ public class ProfilView extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         UserModel user = new UserModel();
-        user.setId(userAuth.getId()); // ID user yang sedang login
+        
         user.setName(nama.getText());
         user.setEmail(email.getText());
         user.setPhone(phone.getText());
@@ -342,15 +344,18 @@ public class ProfilView extends javax.swing.JPanel {
             }
         }
         
-        int roleID;
+        int roleID, userId;
         
         if(pageType == "create" || pageType == "edit") {
             roleID = selectedRole.getId();
+            userId = userById.getId();
         } else {
             roleID = userAuth.getRoleId();
+            userId = userAuth.getId();
         }
 
         user.setRoleId(roleID);
+        user.setId(userId); // ID user yang sedang login
 
         userDao.upsert(user);
         
