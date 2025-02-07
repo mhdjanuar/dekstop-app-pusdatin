@@ -548,18 +548,26 @@ public class ListView extends javax.swing.JPanel {
         try {
             String namaKelurahan = (String) jComboBoxKelurahan.getSelectedItem();
             String namaKecamatan = (String) jComboBoxKecamatan.getSelectedItem();
+            int jumlahLayak = 0;
+            int jumlahTidakLayak = 0;
+            int allData = 0;
             
             System.out.println("Nama Kelurahan : " + namaKelurahan);
             System.out.println("Nama Kecamatan : " + namaKecamatan);
             
             List<PresentaseModel> presentaseList = perhitunganDao.findPresentaseKelayakanKelurahan(namaKelurahan, namaKecamatan, listDetail.getId());
             
-            int allData = 0;
-
-            // Pastikan list memiliki minimal 2 elemen sebelum mengakses indeksnya
-            if (presentaseList.size() >= 2) {
-                allData = presentaseList.get(0).getJumlah() + presentaseList.get(1).getJumlah();
+            if (presentaseList != null && !presentaseList.isEmpty()) {
+                for (PresentaseModel data : presentaseList) {
+                    if ("Layak".equalsIgnoreCase(data.getName())) {
+                        jumlahLayak = data.getJumlah();
+                    } else if ("Tidak Layak".equalsIgnoreCase(data.getName())) {
+                        jumlahTidakLayak = data.getJumlah();
+                    }
+                }
             }
+
+            allData = jumlahLayak + jumlahTidakLayak;
 
             String countData = String.valueOf(allData);
             
@@ -576,8 +584,8 @@ public class ListView extends javax.swing.JPanel {
             parameter.put("NAMA_JUDUL", "KELURAHAN");
             parameter.put("NAMA_KELURAHAN", namaKelurahan);
             parameter.put("COUNT_ALL_DATA", countData);
-            parameter.put("COUNT_LAYAK", String.valueOf(presentaseList.get(0).getJumlah()));
-            parameter.put("COUNT_TIDAK_LAYAK", String.valueOf(presentaseList.get(1).getJumlah()));
+            parameter.put("COUNT_LAYAK", String.valueOf(jumlahLayak));
+            parameter.put("COUNT_TIDAK_LAYAK", String.valueOf(jumlahTidakLayak));
 
             JasperPrint jp = JasperFillManager.fillReport(jr,parameter, dbConnection);
             JasperViewer.viewReport(jp, false);
@@ -590,18 +598,28 @@ public class ListView extends javax.swing.JPanel {
         try {
             String namaKelurahan = (String) jComboBoxKelurahan.getSelectedItem();
             String namaKecamatan = (String) jComboBoxKecamatan.getSelectedItem();
+            int jumlahLayak = 0;
+            int jumlahTidakLayak = 0;
+            int allData = 0;
             
             System.out.println("Nama Kelurahan : " + namaKelurahan);
             System.out.println("Nama Kecamatan : " + namaKecamatan);
             
             List<PresentaseModel> presentaseList = perhitunganDao.findPresentaseKelayakanKecamatan(namaKecamatan, namaKelurahan, listDetail.getId());
             
-            int allData = 0;
 
             // Pastikan list memiliki minimal 2 elemen sebelum mengakses indeksnya
-            if (presentaseList.size() >= 2) {
-                allData = presentaseList.get(0).getJumlah() + presentaseList.get(1).getJumlah();
+            if (presentaseList != null && !presentaseList.isEmpty()) {
+                for (PresentaseModel data : presentaseList) {
+                    if ("Layak".equalsIgnoreCase(data.getName())) {
+                        jumlahLayak = data.getJumlah();
+                    } else if ("Tidak Layak".equalsIgnoreCase(data.getName())) {
+                        jumlahTidakLayak = data.getJumlah();
+                    }
+                }
             }
+            
+            allData = jumlahLayak + jumlahTidakLayak;
 
             String countData = String.valueOf(allData);
             
@@ -618,8 +636,8 @@ public class ListView extends javax.swing.JPanel {
             parameter.put("NAMA_JUDUL", "KECAMATAN");
             parameter.put("NAMA_KELURAHAN", namaKecamatan);
             parameter.put("COUNT_ALL_DATA", countData);
-            parameter.put("COUNT_LAYAK", "0");
-            parameter.put("COUNT_TIDAK_LAYAK", String.valueOf(presentaseList.get(1).getJumlah()));
+            parameter.put("COUNT_LAYAK", String.valueOf(jumlahLayak));
+            parameter.put("COUNT_TIDAK_LAYAK", String.valueOf(jumlahTidakLayak));
 
             JasperPrint jp = JasperFillManager.fillReport(jr,parameter, dbConnection);
             JasperViewer.viewReport(jp, false);
